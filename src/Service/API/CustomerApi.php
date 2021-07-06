@@ -1,14 +1,19 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\API;
 
 use App\Entity\Customer;
 
-class CustomerAPIClient extends ApiClient
+
+class CustomerApi extends ApiClient
 {
     private const PATH = '/customers.json';
 
+    /**
+     * @throws \JsonException
+     * @throws \Exception
+     */
     public function fetchCustomerById(string $customerId): ?Customer
     {
         $customers = $this->apiRequest(self::PATH);

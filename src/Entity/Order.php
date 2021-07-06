@@ -10,6 +10,9 @@ class Order
 {
     private string $id;
     private Customer $customer;
+    /**
+     * @var Item[]
+     */
     private array $items;
     private Value $total;
 
@@ -52,7 +55,8 @@ class Order
         return $this->total;
     }
 
-
-
-
+    public function setTotal(Value $newValue): void
+    {
+        $this->total = $newValue;
+    }
 }

@@ -1,16 +1,18 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\API;
 
-
-use App\Entity\Customer;
 use App\Entity\Product;
 
-class ProductApiClient extends ApiClient
+
+class ProductApi extends ApiClient
 {
     private const PATH = '/products.json';
 
+    /**
+     * @throws \JsonException
+     */
     public function fetchAllProducts(): array
     {
         $productsRaw = $this->apiRequest(self::PATH);
@@ -22,6 +24,9 @@ class ProductApiClient extends ApiClient
         return $products;
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function fetchProductById(string $targetId): ?Product
     {
         $products = $this->apiRequest(self::PATH);

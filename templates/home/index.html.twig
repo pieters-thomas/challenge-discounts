@@ -3,18 +3,82 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/becode/challenge-discounts/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/becode/challenge-discounts/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="example-wrapper">
+        <h1>Place Order!</h1>
+
+        <form method="post">
+            <label>
+                <select id="order" name="order">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </label>
+            <input type="submit" value="place order">
+        </form>
+        {% if order %}
+            <div>
+                <h2>The bill always comes due!</h2>
+                {{ order.customer.name }}
+                <table>
+                    <thead>
+                    <th>#</th>
+                    <th>Cat.</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    </thead>
+                    <tbody>
+                    {% for item in order.items %}
+                        <tr>
+                            <td>{{ item.product.id }}</td>
+                            <td>{{ item.product.category }}</td>
+                            <td>{{ item.product.description }}</td>
+                            <td>{{ item.product.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.total}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"></td>
+                            <td>{{ item.unitPrice }}</td>
+                        </tr>
+
+
+                        {% if item.discountOverview %}
+                            <tr>
+                                <td>*</td>
+                                {% for discount in item.discountOverview %}
+                                    <td colspan="4">{{ discount.description }}</td>
+                                    <td>{{ discount.value.currency }} {{ discount.value.amount }}</td>
+
+                                {% endfor %}
+                            </tr>
+                        {% endif %}
+
+
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ order.total }}
+            </div>
+        {% endif %}
+
+    </div>
+
 {% endblock %}

@@ -20,6 +20,11 @@ class Value
         $this->currency = $currency;
     }
 
+    public function __toString(): string
+    {
+        return $this->currency." ".number_format($this->amount, 2);
+    }
+
     /**
      * @return float
      */

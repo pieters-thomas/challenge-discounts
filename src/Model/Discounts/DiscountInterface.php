@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Model;
+namespace App\Model\Discounts;
 
 
 use App\Entity\Order;

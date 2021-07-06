@@ -8,28 +8,29 @@ use App\Entity\Customer;
 use App\Entity\Item;
 use App\Entity\Order;
 use App\Model\Value;
+use App\Service\API\CustomerApi;
+use App\Service\API\ProductApi;
 use JetBrains\PhpStorm\Pure;
 
 class JsonToOrderConverter
 {
-    private ProductApiClient $productApi;
-    private CustomerAPIClient $customerApi;
+    private ProductApi $productApi;
+    private CustomerApi $customerApi;
 
     /**
      * JsonToOrderConverter constructor.
      */
     #[Pure] public function __construct()
     {
-        $this->productApi = new ProductApiClient();
-        $this->customerApi = new CustomerAPIClient();
+        $this->productApi = new ProductApi();
+        $this->customerApi = new CustomerApi();
     }
 
     /**
      * @throws \JsonException
      */
-    public function convertToOrder(string $json): Order
+    public function convertToOrder(array $order): Order
     {
-        $order = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         $id = $order['id'];
         $customer = $this->customerIdToCustomer($order['customer-id']) ;
         $items = $this->itemsToItemArray($order['items']);

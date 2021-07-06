@@ -2,20 +2,33 @@
 
 namespace App\Controller;
 
-use App\Service\CustomerAPIClient;
+use App\Entity\Order;
+use App\Service\DiscountManager;
+use App\Service\JsonToOrderConverter;
+use App\Service\API\OrderApi;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home', name: 'home')]
-    public function index(): Response
+    #[Route('/home', name: 'home', methods: ['get','post'])]
+    public function index(Request $request, DiscountManager $discountManager, JsonToOrderConverter $converter, OrderApi $api): Response
     {
-        $client = new CustomerAPIClient();
+
+        if($request->getMethod() === 'POST')
+        {
+            $order = $api->fetchOrderById($request->request->get('order'));
+            if ($order instanceof Order)
+            {
+                $discountManager->applyDiscounts($order);
+            }
+        }
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+            'order' => $order??null,
         ]);
     }
 }

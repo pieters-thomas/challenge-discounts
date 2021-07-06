@@ -1,14 +1,16 @@
 <?php
 
 
-namespace App\Model;
+namespace App\Model\Discounts;
 
 
 use App\Entity\Item;
 use App\Entity\Order;
+use App\Model\DiscountDescription;
+use App\Model\Value;
 use JetBrains\PhpStorm\Pure;
 
-class BuyXGetY implements DiscountInterface
+class BulkDiscount implements DiscountInterface
 {
     private int $productCategory;
     private int $buyX;
@@ -17,7 +19,7 @@ class BuyXGetY implements DiscountInterface
 
 
     /**
-     * BuyXGetY constructor.
+     * BulkDiscount constructor.
      */
     public function __construct(int $productCategory, int $buyX, int $getY)
     {
@@ -35,7 +37,6 @@ class BuyXGetY implements DiscountInterface
             {
                 $bonus = ($this->getY-$this->buyX) * floor($item->getQuantity()/$this->buyX);
                 $item->increaseQuantity($bonus);
-                $item->addDiscountOverview(new DiscountDescription($this->description,new Value($bonus, "pcs")));
             }
         }
     }

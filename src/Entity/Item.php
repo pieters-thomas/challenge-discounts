@@ -5,7 +5,7 @@ namespace App\Entity;
 
 
 use App\Model\DiscountDescription;
-use App\Model\DiscountInterface;
+use App\Model\Discounts\DiscountInterface;
 use App\Model\Value;
 
 class Item
@@ -63,6 +63,16 @@ class Item
     }
 
     /**
+     * @param Value $unitPrice
+     */
+    public function setUnitPrice(Value $unitPrice): void
+    {
+        $this->unitPrice = $unitPrice;
+    }
+
+
+
+    /**
      * @return array
      */
     public function getDiscountOverview(): array
@@ -70,10 +80,10 @@ class Item
         return $this->discountOverview;
     }
 
-    public function addDiscountOverview(DiscountDescription $description): void
-    {
-        $this->discountOverview[] = $description;
-    }
+//    public function addDiscountOverview(DiscountDescription $description): void
+//    {
+//        $this->discountOverview[] = $description;
+//    }
 
     /**
      * @return Value
@@ -82,6 +92,15 @@ class Item
     {
         return $this->total;
     }
+
+    /**
+     * @param Value $total
+     */
+    public function setTotal(Value $total): void
+    {
+        $this->total = $total;
+    }
+
 
 
 }

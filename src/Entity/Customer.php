@@ -2,16 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\CustomerRepository;
 use DateTimeImmutable;
-use Doctrine\DBAL\Types\DateType;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
-use Symfony\Component\Validator\Constraints\Date;
 
-/**
- * @ORM\Entity(repositoryClass=CustomerRepository::class)
- */
 class Customer
 {
     /**
@@ -50,12 +44,12 @@ class Customer
     }
 
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

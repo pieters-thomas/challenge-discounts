@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+
 use App\Model\Value;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
