@@ -24,10 +24,10 @@ class Percentage
         return $this->percentage;
     }
 
-    #[Pure] public function discountedValue(Value $input): Value
-    {
-       return new Value($input->getAmount() * (100 -  $this->percentage) /100);
-    }
+//    #[Pure] public function discountedValue(Value $input): Value
+//    {
+//       return new Value($input->getAmount() * (100 -  $this->percentage) /100);
+//    }
 
 //    #[Pure] public function valueSaved(Value $value): Value
 //    {
