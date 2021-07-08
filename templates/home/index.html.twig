@@ -3,91 +3,93 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper {
-        margin: 1em auto;
-        max-width: 800px;
-        width: 95%;
-        font: 18px/1.5 sans-serif;
-    }
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-    .example-wrapper code {
-        background: #F5F5F5;
-        padding: 2px 6px;
-    }
-</style>
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
 
-<div class="example-wrapper">
-    <h1>Place Order!</h1>
+    <div class="example-wrapper">
+        <h1>Place Order!</h1>
 
-    <form method="post">
-        <label>
-            <select id="order" name="order">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-            </select>
-        </label>
-        <input type="submit" value="place order">
-    </form>
-    {% if order %}
-    <div>
-        <h2>The bill always comes due!</h2>
-        {{ order.customer.name }}
-        <table>
-            <thead>
-            <th>#</th>
-            <th>Cat.</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            </thead>
-            <tbody>
-            {% for item in order.items %}
-                <tr>
-                    <td>{{ item.product.id }}</td>
-                    <td>{{ item.product.category }}</td>
-                    <td>{{ item.product.description }}</td>
-                    <td>{{ item.product.price }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.total }}</td>
-                </tr>
+        <form method="post">
+            <label>
+                <select id="order" name="order">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </label>
+            <input type="submit" value="place order">
+        </form>
+        {% if order %}
+            <div>
+                <h2>The bill always comes due!</h2>
+                {{ order.customer.name }}
+                <table>
+                    <thead>
+                    <th>#</th>
+                    <th>Cat.</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    </thead>
+                    <tbody>
+                    {% for item in order.items %}
+                        <tr>
+                            <td>{{ item.product.id }}</td>
+                            <td>{{ item.product.category }}</td>
+                            <td>{{ item.product.description }}</td>
+                            <td>{{ item.product.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.total }}</td>
+                        </tr>
 
-            {% if item.discountOverview %}
-            <tr>
-                <td colspan="6">
-                    <ul>
-                        {% for description in item.discountOverview %}
-                            <li>
-                               Applied {{ description }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-            {% endif %}
+                        {% if item.discountOverview %}
+                            <tr>
+                                <td colspan="6">
+                                    <ul>
+                                        {% for description in item.discountOverview %}
+                                            <li>
+                                                Applied {{ description }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <td colspan="6">Total : {{ order.total }}</td>
+                        </tr>
+                        {% if order.discountOverview %}
+                            <tr>
+                                <td colspan="6">
+                                    <ul>
+                                        {% for description in order.discountOverview %}
+                                            <li>
+                                                Applied {{ description }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endif %}
 
-                {% if order.discountOverview %}
-                    <tr>
-                        <td colspan="6">
-                            <ul>
-                                {% for description in order.discountOverview %}
-                                    <li>
-                                        Applied {{ description }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </td>
-                    </tr>
-                {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
 
-            {% endfor %}
-            </tbody>
-        </table>
     </div>
-    {% endif %}
-
-</div>
 
 {% endblock %}
