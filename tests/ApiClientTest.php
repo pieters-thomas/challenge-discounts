@@ -7,6 +7,7 @@ namespace App\Tests;
 
 
 use App\Service\API\CustomerApi;
+use function PHPUnit\Framework\assertEquals;
 
 class ApiClientTest extends \PHPUnit\Framework\TestCase
 {
@@ -16,6 +17,7 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
             ['/customers.json'],
             ['/orders/order1.json'],
             ['/products.json'],
+            ['/none_existing.json']
         ];
     }
 
@@ -26,6 +28,13 @@ class ApiClientTest extends \PHPUnit\Framework\TestCase
     public function testApiRequest(string $path): void
     {
         $client = new CustomerApi();
-        $this->assertIsArray($client->apiRequest($path));
+
+        try {
+            $array = $client->apiRequest($path);
+            self::assertIsArray($array);
+        }
+        catch (\Exception $exception){
+            assertEquals("json request failed", $exception->getMessage());
+        }
     }
 }

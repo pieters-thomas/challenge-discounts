@@ -5,6 +5,7 @@ namespace App\Entity;
 
 
 use App\Model\Value;
+use Money\Money;
 
 class Order
 {
@@ -14,7 +15,9 @@ class Order
      * @var Item[]
      */
     private array $items;
-    private Value $total;
+
+    private Money $total;
+
     private array $discountOverview;
 
     /**
@@ -22,9 +25,9 @@ class Order
      * @param string $id
      * @param Customer $customer
      * @param array $items
-     * @param Value $total
+     * @param Money $total
      */
-    public function __construct(string $id, Customer $customer, array $items, Value $total)
+    public function __construct(string $id, Customer $customer, array $items, Money $total)
     {
         $this->id = $id;
         $this->customer = $customer;
@@ -49,22 +52,16 @@ class Order
         return $this->items;
     }
 
-    /**
-     * @return Value
-     */
-    public function getTotal(): Value
+    public function getTotal(): Money
     {
         return $this->total;
     }
 
-    public function setTotal(Value $newValue): void
+    public function setTotal(Money $newValue): void
     {
         $this->total = $newValue;
     }
 
-    /**
-     * @return array
-     */
     public function getDiscountOverview(): array
     {
         return $this->discountOverview;

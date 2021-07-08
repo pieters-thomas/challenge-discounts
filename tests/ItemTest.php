@@ -34,15 +34,15 @@ class ItemTest extends TestCase
             $this->assertInstanceOf(Item::class,$item);
             $this->assertSame("B102",$item->getProduct()->getId());
             $this->assertSame(10,$item->getQuantity());
-            $this->assertSame(4.99, $item->getUnitPrice()->getAmount());
-            $this->assertSame(49.90, $item->getTotal()->getAmount());
+            $this->assertSame('499', $item->getUnitPrice()->getAmount());
+            $this->assertSame('4990', $item->getTotal()->getAmount());
             $this->assertSame([],$item->getDiscountOverview());
             $item->increaseQuantity(10);
             $this->assertSame(20,$item->getQuantity());
 
 
         }
-        $this->assertSame($order->getTotal()->getAmount(), 49.90);
+        $this->assertSame($order->getTotal()->getAmount(), '4990');
     }
 
 

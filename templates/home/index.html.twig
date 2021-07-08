@@ -49,9 +49,14 @@
                             <td>{{ item.product.id }}</td>
                             <td>{{ item.product.category }}</td>
                             <td>{{ item.product.description }}</td>
-                            <td>{{ item.product.price }}</td>
-                            <td>{{ item.quantity }}</td>
-                            <td>{{ item.total }}</td>
+                            <td>{{ (item.product.price.amount /100) | number_format(2, ',', '.') }}</td>
+                            <td>
+                                {{ item.quantity }}
+                                {% if item.freeQuantity %}
+                                    + ({{ item.freeQuantity }})
+                                {% endif %}
+                            </td>
+                            <td>{{ (item.total.amount /100) | number_format(2, ',', '.') }}</td>
                         </tr>
 
                         {% if item.discountOverview %}
@@ -67,24 +72,25 @@
                                 </td>
                             </tr>
                         {% endif %}
-                        <tr>
-                            <td colspan="6">Total : {{ order.total }}</td>
-                        </tr>
-                        {% if order.discountOverview %}
-                            <tr>
-                                <td colspan="6">
-                                    <ul>
-                                        {% for description in order.discountOverview %}
-                                            <li>
-                                                Applied {{ description }}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </td>
-                            </tr>
-                        {% endif %}
+
 
                     {% endfor %}
+
+                    <tr>
+                        <td colspan="6">Total : {{ (order.total.amount /100) | number_format(2, ',', '.') }}</td>
+                    </tr>
+                    {% if order.discountOverview %}
+                        <tr>
+                            <td colspan="6">
+                                <ul>
+                                    {% for description in order.discountOverview %}
+                                        <li>Applied {{ description }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endif %}
+
                     </tbody>
                 </table>
             </div>

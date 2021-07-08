@@ -18,6 +18,6 @@ class BuyXGetYTest extends TestCase
         $discount = new BulkDiscount(2,5,6);
 
         $discount->applyDiscount($order);
-        self::assertSame(12, $order->getItems()[0]->getQuantity());
+        self::assertSame(2, $order->getItems()[0]->getFreeQuantity());
  }
 }

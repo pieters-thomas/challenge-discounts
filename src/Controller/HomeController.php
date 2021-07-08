@@ -16,7 +16,7 @@ class HomeController extends AbstractController
     /**
      * @throws \JsonException
      */
-    #[Route('/home', name: 'home', methods: ['get','post'])]
+    #[Route('/', name: 'home', methods: ['get','post'])]
     public function index(Request $request, DiscountManager $discountManager, JsonToOrderConverter $converter, OrderApi $api): Response
     {
 

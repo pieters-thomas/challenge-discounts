@@ -8,35 +8,38 @@ use App\Entity\Order;
 use App\Model\Discounts\DiscountInterface;
 use App\Model\Value;
 use App\Service\Percentage;
+use App\Service\TotalCalculator;
 use JetBrains\PhpStorm\Pure;
+use Money\Currency;
+use Money\Money;
 
 class LoyaltyDiscount implements DiscountInterface
 {
-    private float $revenue;
+    private Money $revenue;
     private Percentage $discount;
     private string $description;
 
     /**
      * LoyaltyDiscount constructor.
      */
-    #[Pure] public function __construct(float $revenue, int $percentOff)
+    #[Pure] public function __construct(Money $revenue, Percentage $discount)
     {
         $this->revenue = $revenue;
-        $this->discount = new Percentage($percentOff);
-        $this->description = "Loyalty discount of " .$percentOff."%";
+        $this->discount = $discount;
+        $this->description = "Loyalty discount of " .$discount->getPercentage()."%";
     }
 
     public function applyDiscount(Order $order): void
     {
         if ($this->discountAppliesTo($order))
         {
-            $order->setTotal($order->getTotal()->reduceByPercentage($this->discount));
+            $order->setTotal($order->getTotal()->multiply( (string) $this->discount->getDiscountedRate()));
             $order->addDiscountDescription($this->description);
         }
     }
 
-    #[Pure] private function discountAppliesTo(Order $order): bool
+    private function discountAppliesTo(Order $order): bool
     {
-        return $order->getCustomer()->getRevenue() >= $this->revenue;
+        return $order->getCustomer()->getRevenue()->greaterThanOrEqual($this->revenue);
     }
 }

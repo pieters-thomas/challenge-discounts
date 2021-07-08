@@ -3,14 +3,13 @@
 
 namespace App\Service;
 
-
 use App\Entity\Order;
 use App\Model\Discounts\BulkDiscount;
 use App\Model\Discounts\CategoryDiscount;
 use App\Model\Discounts\DiscountInterface;
 use App\Model\Discounts\LoyaltyDiscount;
-use App\Model\Value;
-use JetBrains\PhpStorm\Pure;
+use Money\Currency;
+use Money\Money;
 
 class DiscountManager
 {
@@ -25,21 +24,22 @@ class DiscountManager
     /**
      * DiscountManager constructor.
      */
-    #[Pure] public function __construct()
+    public function __construct()
     {
         $this->calculator = new TotalCalculator();
         $this->preTotalCalcDiscounts = [
-            new CategoryDiscount( 1, 10),
+            new CategoryDiscount(1, new Percentage(10)),
         ];
 
         $this->postTotalCalcDiscounts = [
-            new LoyaltyDiscount(1000, 10),
+            new LoyaltyDiscount(new Money(100000, new Currency($_SERVER['EUR'])), new Percentage(10)),
             new BulkDiscount(2, 5, 6),
         ];
     }
 
     public function applyDiscounts(Order $order): void
     {
+
         $this->applyPreCalcDiscounts($order);
 
         $order->setTotal($this->calculator->orderTotal($order));

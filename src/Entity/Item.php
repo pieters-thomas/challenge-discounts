@@ -7,23 +7,25 @@ namespace App\Entity;
 use App\Model\DiscountDescription;
 use App\Model\Discounts\DiscountInterface;
 use App\Model\Value;
+use Money\Money;
 
 class Item
 {
     private Product $product;
     private int $quantity;
-    private Value $unitPrice;
-    private Value $total;
+    private int $freeQuantity = 0;
+    private Money $unitPrice;
+    private Money $total;
     private array $discountOverview = [];
 
     /**
      * Item constructor.
      * @param Product $product
      * @param int $quantity
-     * @param Value $unitPrice
-     * @param Value $total
+     * @param Money $unitPrice
+     * @param Money $total
      */
-    public function __construct(Product $product, int $quantity, Value $unitPrice, Value $total)
+    public function __construct(Product $product, int $quantity, Money $unitPrice, Money $total)
     {
         $this->product = $product;
         $this->quantity = $quantity;
@@ -47,6 +49,16 @@ class Item
         return $this->quantity;
     }
 
+    public function getFreeQuantity(): int
+    {
+        return $this->freeQuantity;
+    }
+
+    public function setFreeQuantity(int $freeQuantity): void
+    {
+        $this->freeQuantity = $freeQuantity;
+    }
+
     public function increaseQuantity(int $increaseBy): void
     {
         if ($increaseBy > 0) {
@@ -54,18 +66,13 @@ class Item
         }
     }
 
-    /**
-     * @return Value
-     */
-    public function getUnitPrice(): Value
+    public function getUnitPrice(): Money
     {
         return $this->unitPrice;
     }
 
-    /**
-     * @param Value $unitPrice
-     */
-    public function setUnitPrice(Value $unitPrice): void
+
+    public function setUnitPrice(Money $unitPrice): void
     {
         $this->unitPrice = $unitPrice;
     }
@@ -85,18 +92,14 @@ class Item
         $this->discountOverview[] = $description;
     }
 
-    /**
-     * @return Value
-     */
-    public function getTotal(): Value
+
+    public function getTotal(): Money
     {
         return $this->total;
     }
 
-    /**
-     * @param Value $total
-     */
-    public function setTotal(Value $total): void
+
+    public function setTotal(Money $total): void
     {
         $this->total = $total;
     }

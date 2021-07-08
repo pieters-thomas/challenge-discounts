@@ -7,6 +7,7 @@ namespace App\Tests;
 use App\Model\Discounts\CategoryDiscount;
 use App\Service\API\OrderApi;
 use App\Service\JsonToOrderConverter;
+use App\Service\Percentage;
 use function PHPUnit\Framework\assertTrue;
 
 class CategoryDiscountTest extends \PHPUnit\Framework\TestCase
@@ -28,7 +29,7 @@ class CategoryDiscountTest extends \PHPUnit\Framework\TestCase
         $converter = new JsonToOrderConverter();
         $order = $converter->convertToOrder(json_decode($number, true, 512, JSON_THROW_ON_ERROR));
 
-        $discount = new CategoryDiscount(1, 100);
+        $discount = new CategoryDiscount(1, new Percentage(100));
         $discount->applyDiscount($order);
 
 

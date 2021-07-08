@@ -28,6 +28,9 @@ class ProductApiTest extends TestCase
         $this->assertInstanceOf(Product::class, $client->fetchProductById($id));
     }
 
+    /**
+     * @throws \JsonException
+     */
     public function testAllProducts(): void
     {
         $client = new ProductApi();

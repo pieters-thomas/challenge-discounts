@@ -7,22 +7,25 @@ namespace App\Service;
 use App\Entity\Item;
 use App\Entity\Order;
 use App\Model\Value;
+use Doctrine\ORM\Query\AST\Functions\CurrentDateFunction;
 use JetBrains\PhpStorm\Pure;
+use Money\Currency;
+use Money\Money;
 
 class TotalCalculator
 {
-    #[Pure] public function itemTotal(Item $item): Value
+    public function itemTotal(Item $item): Money
     {
-       return new Value($item->getQuantity() * $item->getUnitPrice()->getAmount());
+       return new Money( $item->getUnitPrice()->multiply($item->getQuantity())->getAmount(), $item->getTotal()->getCurrency());
     }
 
-    #[Pure] public function orderTotal(Order $order): Value
+    public function orderTotal(Order $order): Money
     {
         $total = 0;
         foreach ($order->getItems() as $item)
         {
-            $total += $item->getTotal()->getAmount();
+            $total += (int) $item->getTotal()->getAmount();
         }
-        return new Value($total);
+        return new Money($total , $order->getTotal()->getCurrency());
     }
 }

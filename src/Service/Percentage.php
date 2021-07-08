@@ -4,33 +4,38 @@
 namespace App\Service;
 
 
-use App\Model\Value;
-use JetBrains\PhpStorm\Pure;
+use PHPUnit\Util\Exception;
+
 
 class Percentage
 {
-    private float $percentage;
+    private int $percentage;
+    private float $discountedRate;
 
     /**
      * Percentage constructor.
      */
-    public function __construct(float $percentOff)
+    public function __construct(int $percentOff)
     {
+        if($percentOff < 0 && $percentOff > 100)
+        {
+            throw new Exception("Invalid Percentage Provided");
+        }
         $this->percentage = $percentOff;
+        $this->discountedRate = (float) (100 - $percentOff)/100;
     }
 
-    public function getPercentage(): float
+    public function getPercentage(): int
     {
         return $this->percentage;
     }
 
-//    #[Pure] public function discountedValue(Value $input): Value
-//    {
-//       return new Value($input->getAmount() * (100 -  $this->percentage) /100);
-//    }
 
-//    #[Pure] public function valueSaved(Value $value): Value
-//    {
-//        return new Value ($value->getAmount() * $this->percentage * 100, $value->getCurrency());
-//    }
+    public function getDiscountedRate(): float
+    {
+        return $this->discountedRate;
+    }
+
+
+
 }

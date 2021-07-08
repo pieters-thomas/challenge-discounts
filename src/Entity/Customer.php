@@ -5,6 +5,7 @@ namespace App\Entity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Money\Money;
 
 class Customer
 {
@@ -28,19 +29,21 @@ class Customer
     /**
      * @ORM\Column(type="float")
      */
-    private float $revenue;
+    private Money $revenue;
 
     /**
      * Customer constructor.
-     * @param array $customerArray
-     * @throws Exception
+     * @param int $id
+     * @param string $name
+     * @param DateTimeImmutable $since
+     * @param Money $revenue
      */
-    public function __construct(string $id, string $name, string $since, string $revenue)
+    public function __construct(int $id, string $name, DateTimeImmutable $since, Money $revenue)
     {
-        $this->id = (int)$id;
+        $this->id = $id;
         $this->name = $name;
-        $this->since = new DateTimeImmutable($since);
-        $this->revenue = (float)$revenue;
+        $this->since = $since;
+        $this->revenue = $revenue;
     }
 
 
@@ -59,16 +62,8 @@ class Customer
         return $this->since;
     }
 
-    public function getRevenue(): ?float
+    public function getRevenue(): Money
     {
         return $this->revenue;
-    }
-
-    public function increaseRevenue(float $increase): void
-    {
-        if($increase > 0)
-        {
-            $this->revenue += $increase;
-        }
     }
 }

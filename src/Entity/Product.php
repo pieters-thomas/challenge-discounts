@@ -6,45 +6,29 @@ namespace App\Entity;
 use App\Model\Value;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Money\Money;
 
 
 class Product
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
     private string $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private string $description;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
     private int $category;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private Value $price;
+    private Money $price;
 
     /**
      * Product constructor.
      * @param string $id
      * @param string $description
      * @param int $category
-     * @param float $price
+     * @param Money $price
      */
-    #[Pure] public function __construct(string $id, string $description, int $category, float $price)
+    #[Pure] public function __construct(string $id, string $description, int $category, Money $price)
     {
         $this->id = $id;
         $this->description = $description;
         $this->category = $category;
-        $this->price = new Value($price);
+        $this->price = $price;
     }
 
     public function getId(): string
@@ -62,7 +46,7 @@ class Product
         return $this->category;
     }
 
-    public function getPrice(): Value
+    public function getPrice(): Money
     {
         return $this->price;
     }

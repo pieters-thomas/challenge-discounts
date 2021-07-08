@@ -26,19 +26,19 @@ class BulkDiscount implements DiscountInterface
         $this->productCategory = $productCategory;
         $this->buyX = $buyX;
         $this->getY = $getY;
-        $this->description = "Buy ". $this->buyX ." get ".$this->getY;
+        $this->description = "Buy " . $this->buyX . " get " . $this->getY;
     }
 
     public function applyDiscount(Order $order): void
     {
-        foreach ($order->getItems() as $item)
-        {
-            if($this->discountAppliesTo($item))
-            {
-                $bonus = ($this->getY-$this->buyX) * floor($item->getQuantity()/$this->buyX);
-                $item->increaseQuantity($bonus);
-                $item->addDiscountDescription($this->description);
+        foreach ($order->getItems() as $item) {
+            if (!$this->discountAppliesTo($item)) {
+                continue;
             }
+
+            $bonus = ($this->getY - $this->buyX) * floor($item->getQuantity() / $this->buyX);
+            $item->setFreeQuantity($bonus);
+            $item->addDiscountDescription($this->description);
         }
     }
 

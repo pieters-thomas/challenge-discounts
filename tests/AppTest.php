@@ -19,9 +19,9 @@ class AppTest extends TestCase
         $api = new OrderApi();
 
         return [
-            [$api->fetchOrderById(1),49.90,49.90],
-            [$api->fetchOrderById(2),24.95,22.46],
-            [$api->fetchOrderById(3),69.00,67.05],
+            [$api->fetchOrderById(1),4990,'4990'],
+            [$api->fetchOrderById(2),2495,'2246'],
+            [$api->fetchOrderById(3),6900,'6706'],
         ];
     }
 
@@ -33,12 +33,12 @@ class AppTest extends TestCase
 
         self::assertInstanceOf(Order::class, $order);
 
-        self::assertEquals(number_format($order->getTotal()->getAmount(),2), $rawTotal);
+        self::assertEquals($order->getTotal()->getAmount(), $rawTotal);
 
         $discountManager = new DiscountManager();
         $discountManager->applyDiscounts($order);
 
-        self::assertEquals(number_format($order->getTotal()->getAmount(),2) , $discountTotal);
+        self::assertEquals($discountTotal, $order->getTotal()->getAmount());
 
 }
 }

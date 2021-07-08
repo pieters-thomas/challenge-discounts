@@ -9,7 +9,7 @@ class DiscountAppTest extends WebTestCase
     public function testSomething(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/home');
+        $crawler = $client->request('GET', '/');
 
         self::assertResponseIsSuccessful();
         self::assertSelectorTextContains('h1', 'Place Order!');
@@ -18,7 +18,7 @@ class DiscountAppTest extends WebTestCase
     public function testIndexPost(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('POST', '/home', ['order'=>'1']);
+        $crawler = $client->request('POST', '/', ['order'=>'1']);
 
         self::assertResponseIsSuccessful();
         self::assertSelectorTextContains('h1', 'Place Order!');

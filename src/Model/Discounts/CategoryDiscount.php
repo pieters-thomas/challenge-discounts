@@ -12,19 +12,19 @@ use JetBrains\PhpStorm\Pure;
 class CategoryDiscount implements DiscountInterface
 {
     private int $category;
-    private Percentage $discountRate;
+    private Percentage $discount;
     private TotalCalculator $calculator;
     private string $description;
 
     /**
      * CategoryDiscount constructor.
      */
-    #[Pure] public function __construct(int $applyToCategory, int $percentOff)
+    #[Pure] public function __construct(int $applyToCategory, Percentage $discount)
     {
         $this->category = $applyToCategory;
-        $this->discountRate = new Percentage($percentOff);
+        $this->discount = $discount;
         $this->calculator = new TotalCalculator();
-        $this->description = "Category Discount ".$percentOff."%";
+        $this->description = "Category Discount ".$discount->getPercentage()."%";
     }
 
     public function applyDiscount(Order $order): void
@@ -34,15 +34,16 @@ class CategoryDiscount implements DiscountInterface
         {
             foreach ($order->getItems() as $item)
             {
-                if ($item === $discountedItem)
+                if ($item !== $discountedItem)
                 {
-                    $discountPrice = $item->getUnitPrice()->reduceByPercentage($this->discountRate);
-                    $item->setUnitPrice($discountPrice);
-
-                    $newTotal = $this->calculator->itemTotal($item);
-                    $item->setTotal($newTotal);
-                    $item->addDiscountDescription($this->description);
+                   continue;
                 }
+                $discountPrice = $item->getUnitPrice()->multiply( (string) $this->discount->getDiscountedRate());
+                $item->setUnitPrice($discountPrice);
+
+                $newTotal = $this->calculator->itemTotal($item);
+                $item->setTotal($newTotal);
+                $item->addDiscountDescription($this->description);
             }
         }
     }
@@ -63,6 +64,7 @@ class CategoryDiscount implements DiscountInterface
                 if ($item->getProduct()->getPrice()->getAmount() < $cheapest->getProduct()->getPrice()->getAmount()) {
                     $cheapest = $item;
                 }
+
             }
             return $cheapest;
 
