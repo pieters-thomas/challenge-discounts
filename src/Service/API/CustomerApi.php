@@ -19,7 +19,8 @@ class CustomerApi extends ApiClient
         $customers = $this->apiRequest(self::PATH);
         foreach ($customers as $customer) {
             if ($customer['id'] === $customerId) {
-                return new Customer($customer);
+                return new Customer(
+                    $customer['id'], $customer['name'], $customer['since'], $customer['revenue']);
             }
         }
         return null;

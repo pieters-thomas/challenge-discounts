@@ -80,10 +80,10 @@ class Item
         return $this->discountOverview;
     }
 
-//    public function addDiscountOverview(DiscountDescription $description): void
-//    {
-//        $this->discountOverview[] = $description;
-//    }
+    public function addDiscountDescription(string $description): void
+    {
+        $this->discountOverview[] = $description;
+    }
 
     /**
      * @return Value

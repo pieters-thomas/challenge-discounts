@@ -11,12 +11,12 @@ use JetBrains\PhpStorm\Pure;
 
 class TotalCalculator
 {
-    #[Pure] public function calcItemTotal(Item $item): Value
+    #[Pure] public function itemTotal(Item $item): Value
     {
        return new Value($item->getQuantity() * $item->getUnitPrice()->getAmount());
     }
 
-    #[Pure] public function calcOrderTotal(Order $order): Value
+    #[Pure] public function orderTotal(Order $order): Value
     {
         $total = 0;
         foreach ($order->getItems() as $item)

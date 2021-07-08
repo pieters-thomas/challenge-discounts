@@ -35,12 +35,12 @@ class Customer
      * @param array $customerArray
      * @throws Exception
      */
-    public function __construct(array $customerArray)
+    public function __construct(string $id, string $name, string $since, string $revenue)
     {
-        $this->id = (int)$customerArray['id'];
-        $this->name = (string)$customerArray['name'];
-        $this->since = new DateTimeImmutable($customerArray['since']);
-        $this->revenue = (float)$customerArray['revenue'];
+        $this->id = (int)$id;
+        $this->name = $name;
+        $this->since = new DateTimeImmutable($since);
+        $this->revenue = (float)$revenue;
     }
 
 

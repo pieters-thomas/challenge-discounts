@@ -15,6 +15,7 @@ class Order
      */
     private array $items;
     private Value $total;
+    private array $discountOverview;
 
     /**
      * Order constructor.
@@ -29,6 +30,7 @@ class Order
         $this->customer = $customer;
         $this->items = $items;
         $this->total = $total;
+        $this->discountOverview = [];
     }
 
     /**
@@ -58,5 +60,18 @@ class Order
     public function setTotal(Value $newValue): void
     {
         $this->total = $newValue;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDiscountOverview(): array
+    {
+        return $this->discountOverview;
+    }
+
+    public function addDiscountDescription(string $description):void
+    {
+        $this->discountOverview[] = $description;
     }
 }

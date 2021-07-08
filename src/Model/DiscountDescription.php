@@ -6,22 +6,22 @@ namespace App\Model;
 
 class DiscountDescription
 {
-    private $description;
+    private string $description;
     private Value $value;
 
     /**
      * DiscountDescription constructor.
      */
-    public function __construct($description, Value $value)
+    public function __construct(string $description, Value $value)
     {
         $this->description = $description;
         $this->value = $value;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -33,6 +33,5 @@ class DiscountDescription
     {
         return $this->value;
     }
-
 
 }

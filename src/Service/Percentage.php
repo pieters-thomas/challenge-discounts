@@ -19,10 +19,10 @@ class Percentage
         $this->percentage = $percentOff;
     }
 
-//    public function getPercentage(): float
-//    {
-//        return $this->percentage;
-//    }
+    public function getPercentage(): float
+    {
+        return $this->percentage;
+    }
 
     #[Pure] public function discountedValue(Value $input): Value
     {

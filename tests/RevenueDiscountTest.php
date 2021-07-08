@@ -22,6 +22,7 @@ class RevenueDiscountTest extends TestCase
 
     /**
      * @dataProvider dataProviderRevenueDiscount
+     * @throws \JsonException
      */
     public function testRevenueDiscount(int $number, float $expectedTotal, $revenue): void
     {

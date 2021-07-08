@@ -36,8 +36,6 @@ class CategoryDiscountTest extends \PHPUnit\Framework\TestCase
         {
             if($item->getProduct()->getCategory() === 1)
             {
-                var_dump($item->getProduct()->getDescription());
-                var_dump($item->getUnitPrice());
                 self::assertTrue(true);
                 return;
             }

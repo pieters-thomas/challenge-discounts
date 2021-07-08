@@ -37,6 +37,7 @@ class BulkDiscount implements DiscountInterface
             {
                 $bonus = ($this->getY-$this->buyX) * floor($item->getQuantity()/$this->buyX);
                 $item->increaseQuantity($bonus);
+                $item->addDiscountDescription($this->description);
             }
         }
     }

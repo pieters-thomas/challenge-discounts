@@ -14,6 +14,7 @@ class LoyaltyDiscount implements DiscountInterface
 {
     private float $revenue;
     private Percentage $discount;
+    private string $description;
 
     /**
      * LoyaltyDiscount constructor.
@@ -22,12 +23,15 @@ class LoyaltyDiscount implements DiscountInterface
     {
         $this->revenue = $revenue;
         $this->discount = new Percentage($percentOff);
+        $this->description = "Loyalty discount of " .$percentOff."%";
     }
 
     public function applyDiscount(Order $order): void
     {
-        if ($this->discountAppliesTo($order)) {
-            $order->setTotal($this->discount->discountedValue($order->getTotal()));
+        if ($this->discountAppliesTo($order))
+        {
+            $order->setTotal($order->getTotal()->reduceByPercentage($this->discount));
+            $order->addDiscountDescription($this->description);
         }
     }
 

@@ -14,6 +14,7 @@ class CategoryDiscount implements DiscountInterface
     private int $category;
     private Percentage $discountRate;
     private TotalCalculator $calculator;
+    private string $description;
 
     /**
      * CategoryDiscount constructor.
@@ -23,6 +24,7 @@ class CategoryDiscount implements DiscountInterface
         $this->category = $applyToCategory;
         $this->discountRate = new Percentage($percentOff);
         $this->calculator = new TotalCalculator();
+        $this->description = "Category Discount ".$percentOff."%";
     }
 
     public function applyDiscount(Order $order): void
@@ -34,11 +36,12 @@ class CategoryDiscount implements DiscountInterface
             {
                 if ($item === $discountedItem)
                 {
-                    $discountPrice = $this->discountRate->discountedValue($item->getUnitPrice());
+                    $discountPrice = $item->getUnitPrice()->reduceByPercentage($this->discountRate);
                     $item->setUnitPrice($discountPrice);
 
-                    $newTotal = $this->calculator->calcItemTotal($item);
+                    $newTotal = $this->calculator->itemTotal($item);
                     $item->setTotal($newTotal);
+                    $item->addDiscountDescription($this->description);
                 }
             }
         }

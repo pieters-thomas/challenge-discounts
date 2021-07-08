@@ -9,6 +9,7 @@ use App\Model\Discounts\BulkDiscount;
 use App\Model\Discounts\CategoryDiscount;
 use App\Model\Discounts\DiscountInterface;
 use App\Model\Discounts\LoyaltyDiscount;
+use App\Model\Value;
 use JetBrains\PhpStorm\Pure;
 
 class DiscountManager
@@ -40,7 +41,9 @@ class DiscountManager
     public function applyDiscounts(Order $order): void
     {
         $this->applyPreCalcDiscounts($order);
-        $order->setTotal($this->calculator->calcOrderTotal($order));
+
+        $order->setTotal($this->calculator->orderTotal($order));
+
         $this->applyPostCalcDiscounts($order);
     }
 

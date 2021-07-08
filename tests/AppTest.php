@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 class AppTest extends TestCase
 {
+    /**
+     * @throws \JsonException
+     */
     public function testApplication(): void
     {
         $api = new OrderApi();
@@ -22,5 +25,6 @@ class AppTest extends TestCase
         $discountManager->applyDiscounts($order);
 
         self::assertInstanceOf(Order::class, $order);
+        //TODO write test that checks the outcomes for each order;
 }
 }
